@@ -30,6 +30,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/фзш")
+@app.get("/api")
 def root():
     return {"version": "DEBUG-12345"}
