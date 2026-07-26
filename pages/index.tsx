@@ -23,7 +23,6 @@ export default function Home() {
 
         return () => { evt.close(); };
     }, []);
-
     return (
         <main className="p-8 font-sans">
             <h1 className="text-3xl font-bold mb-4">

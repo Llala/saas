@@ -1,8 +1,16 @@
 from fastapi import FastAPI  # type: ignore
 from fastapi.responses import PlainTextResponse  # type: ignore
 from openai import OpenAI  # type: ignore
+import os
 
 app = FastAPI()
+
+@app.get("/debug")
+def debug():
+    return {
+        "has_key": "OPENAI_API_KEY" in os.environ,
+        "prefix": os.environ.get("OPENAI_API_KEY", "")[:8],
+    }
 
 @app.get("/api", response_class=PlainTextResponse)
 def idea():
