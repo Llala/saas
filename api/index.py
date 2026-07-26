@@ -12,7 +12,7 @@ def debug():
         "prefix": os.environ.get("OPENAI_API_KEY", "")[:8],
     }
 
-@app.get("/api", response_class=PlainTextResponse)
+@app.get("/", response_class=PlainTextResponse)
 def idea():
     client = OpenAI()
     prompt = [{"role": "user", "content": "Come up with a new business idea for AI Agents"}]
