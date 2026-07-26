@@ -33,3 +33,7 @@ app = FastAPI()
 @app.get("/api")
 def root():
     return {"version": "DEBUG-12345"}
+
+print("Routes:")
+for route in app.routes:
+    print(route.path)
