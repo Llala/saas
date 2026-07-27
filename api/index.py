@@ -33,6 +33,13 @@ Date of Visit: {visit.date_of_visit}
 Notes:
 {visit.notes}"""
 
+@app.get("/debug")
+def debug():
+    return {
+        "jwks_url": os.getenv("CLERK_JWKS_URL"),
+        "has_openai_key": bool(os.getenv("OPENAI_API_KEY")),
+    }
+
 
 @app.post("/api")
 def consultation_summary(
