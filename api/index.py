@@ -33,7 +33,7 @@ Date of Visit: {visit.date_of_visit}
 Notes:
 {visit.notes}"""
 
-@app.get("/debug")
+@app.get("/api/debug")
 def debug():
     return {
         "jwks_url": os.getenv("CLERK_JWKS_URL"),
