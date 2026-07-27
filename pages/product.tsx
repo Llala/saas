@@ -49,6 +49,7 @@ function ConsultationForm() {
                 notes,
             }),
             onmessage(ev) {
+                console.log('SSE message:', ev.data);
                 buffer += ev.data;
                 setOutput(buffer);
             },

@@ -62,14 +62,32 @@ def consultation_summary(
         stream=True,
     )
 
+    # def event_stream():
+    #     for chunk in stream:
+    #         text = chunk.choices[0].delta.content
+    #         if text:
+    #             lines = text.split("\n")
+    #             for line in lines[:-1]:
+    #                 yield f"data: {line}\n\n"
+    #                 yield "data:  \n"
+    #             yield f"data: {lines[-1]}\n\n"
     def event_stream():
-        for chunk in stream:
-            text = chunk.choices[0].delta.content
-            if text:
-                lines = text.split("\n")
-                for line in lines[:-1]:
-                    yield f"data: {line}\n\n"
-                    yield "data:  \n"
-                yield f"data: {lines[-1]}\n\n"
+        try:
+            for chunk in stream:
+                text = chunk.choices[0].delta.content
+                if text:
+                    yield f"data: {text}\n\n"
+        except Exception as e:
+            print(e)
+            yield f"event: error\ndata: {str(e)}\n\n"
 
-    return StreamingResponse(event_stream(), media_type="text/event-stream")
+    # return StreamingResponse(event_stream(), media_type="text/event-stream")
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
