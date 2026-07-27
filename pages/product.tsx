@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import DatePicker from 'react-datepicker';
 import ReactMarkdown from 'react-markdown';
@@ -35,7 +35,8 @@ function ConsultationForm() {
 
         const controller = new AbortController();
         let buffer = '';
-
+        const { getToken } = useAuth();
+        console.log('getToken', getToken);
         await fetchEventSource('/api', {
             signal: controller.signal,
             method: 'POST',
@@ -56,11 +57,25 @@ function ConsultationForm() {
             onclose() { 
                 setLoading(false); 
             },
+            // onerror(err) {
+            //     console.error('SSE error:', err);
+            //     controller.abort();
+            //     setLoading(false);
+            // },
+            // async onopen(response) {
+            //     if (response.ok) return;
+            
+            //     if (response.status === 401 || response.status === 403) {
+            //       throw new FetchEventSourceFatalError();
+            //     }
+            
+            //     throw new Error(`HTTP ${response.status}`);
+            // },
+        
             onerror(err) {
-                console.error('SSE error:', err);
-                controller.abort();
-                setLoading(false);
-            },
+            console.error(err);
+            throw err;
+            }
         });
     }
 
